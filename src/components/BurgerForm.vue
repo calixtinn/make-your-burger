@@ -2,7 +2,7 @@
   <div>
     <Message :msg="msg" v-show="msg"/>
     <div>
-      <form id="burger-form" @submit="createBurger($event)">
+      <form id="burger-form" @submit.prevent="createBurger()">
         <div class="input-container">
           <label for="nome">Nome do cliente:</label>
           <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite seu nome">
@@ -73,8 +73,8 @@ export default {
       });
 
     },
-    async createBurger(e) {
-      e.preventDefault();
+
+    async createBurger() {
       const data = {
         nome: this.nome,
         carne: this.carne,
@@ -83,23 +83,13 @@ export default {
         status: 'Solicitado',
       }
 
-      const dataJson = JSON.stringify(data);
-      const req = await fetch("http://localhost:3000/burgers", {
-        method: "POST",
-        headers: { "Content-Type": "application/json"},
-        body: dataJson
+
+      await api.post('/burgers', data).then((response) => {
+        this.msg = `Pedido Nº ${response.data.id} realizado com sucesso!`;
+        setTimeout(() => this.msg = "", 3000);
+      }).catch(error => {
+        console.log(error);
       });
-
-      const res = await req.json();
-
-      // Colocar msg de sistema
-
-      this.msg = `Pedido Nº ${res.id} realizado com sucesso`
-
-      // Limpar MSG
-
-      setTimeout(() => this.msg = "", 3000);
-
 
       // Limpar os campos
 
