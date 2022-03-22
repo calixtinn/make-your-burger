@@ -5,7 +5,11 @@
       <form id="burger-form" @submit.prevent="createBurger()">
         <div class="input-container">
           <label for="nome">Nome do cliente:</label>
-          <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite seu nome">
+          <!-- <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite seu nome"> -->
+          <span class="p-input-icon-left">
+            <InputText id="nome" name="nome" type="text" v-model="nome" placeholder="Digite seu nome" />
+            <i class="pi pi-user" />
+          </span>
         </div>
         <div class="input-container">
           <label for="pao">Escolha o pão:</label>
@@ -173,5 +177,10 @@ input, select {
   background-color: transparent;
   color: #222;
 }
+
+/*.p-inputtext {*/
+/*  background: white;*/
+/*  color: black;*/
+/*}*/
 
 </style>

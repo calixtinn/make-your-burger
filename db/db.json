@@ -152,6 +152,16 @@
       ],
       "status": "Solicitado",
       "id": 8
+    },
+    {
+      "nome": "Chrome",
+      "carne": "Alcatra",
+      "pao": "3 Queijos",
+      "opcionais": [
+        "Bacon"
+      ],
+      "status": "Solicitado",
+      "id": 9
     }
   ]
 }
