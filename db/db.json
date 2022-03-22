@@ -101,6 +101,17 @@
       ],
       "status": "Finalizado",
       "id": 3
+    },
+    {
+      "nome": "Carlos",
+      "carne": "Alcatra",
+      "pao": "3 Queijos",
+      "opcionais": [
+        "Bacon",
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 4
     }
   ]
 }
