@@ -93,36 +93,14 @@
       "id": 1
     },
     {
-      "nome": "Zeca",
-      "carne": "Veggie burger",
-      "pao": "Integral",
-      "opcionais": [
-        "Tomate",
-        "Pepino",
-        "Cebola roxa"
-      ],
-      "status": "Solicitado",
-      "id": 2
-    },
-    {
       "nome": "maria",
       "carne": "Alcatra",
       "pao": "Parmesão e Orégano",
       "opcionais": [
         "Bacon"
       ],
-      "status": "Solicitado",
+      "status": "Finalizado",
       "id": 3
-    },
-    {
-      "nome": "Joaquina",
-      "carne": "Alcatra",
-      "pao": "Integral",
-      "opcionais": [
-        "Salame"
-      ],
-      "status": "Solicitado",
-      "id": 4
     }
   ]
 }
