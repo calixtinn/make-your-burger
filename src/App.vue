@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar />
+    <Navbar :logo="logo_src" :alt="app_name"/>
     <router-view/>
     <Footer />
   </div>
@@ -13,10 +13,39 @@
     components: {
       Navbar, 
       Footer
+    },
+    data() {
+      return {
+        logo_src: '/img/logo.png',
+        app_name: 'Make Your Burger'
+      }
     }
   }
 </script>
 
 <style>
+
+  /* Remoção de CSS a mais que vem com o navegador 
+  Alterando a fonte do projeto, removendo o padding de todos os elementos, tirando a margem de todos os elementos,
+  e o bix-sizing para border-box para que os inputs não passarem da div-pai
+  */
+  * {
+    font-family: Helvetica;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  .main-container {
+    margin: 50px; /* Ajustar o conteúdo e dar mais espaçamento em todos os cantos */
+    min-height: 250px; /* Ganha um "corpo" a mais, o conteúdo do site */
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 42px;
+    margin-bottom: 30px;
+    color: #222;
+  }
 
 </style>
