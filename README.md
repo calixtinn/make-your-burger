@@ -162,3 +162,10 @@ methods: {
 </script>
 ```
 
+## Validação de Formulários
+
+Utilizar o Vuelidate. Links de apoio: 
+  - [Easy Form Validation with Vuelidate | Vue 3 Tutorial](https://www.youtube.com/watch?v=2BR6Vvjw3wQ) <- **O Melhor**
+  - [Get Started](https://vuelidate-next.netlify.app/#getting-started-1)
+
+
