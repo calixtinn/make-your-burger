@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Message :msg="msg" v-show="msg"/>
+    <Toast />
     <div>
       <form id="burger-form" @submit.prevent="createBurger()">
         <div class="input-container">
@@ -35,12 +35,12 @@
 
 <script>
 
-import Message from './Message.vue';
 import api from '@/services/api'
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
 import Checkbox from 'primevue/checkbox';
 import Button from 'primevue/button';
+import {ToastSeverity} from 'primevue/api';
 
 export default {
   name: 'BurgerForm',
@@ -52,11 +52,10 @@ export default {
       opcionaisdata: null,
       pao: null,
       carne: null,
-      opcionais: [],
-      msg: null
+      opcionais: []
     }
   },
-  components: { Message, InputText, Dropdown, Checkbox, Button },
+  components: { InputText, Dropdown, Checkbox, Button },
   methods: {
     async getIngredientes() {
 
@@ -83,7 +82,7 @@ export default {
 
 
       await api.post('/burgers', data).then((response) => {
-        this.msg = `Pedido Nº ${response.data.id} realizado com sucesso!`;
+        this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
         setTimeout(() => this.msg = "", 3000);
       }).catch(error => {
         console.log(error);

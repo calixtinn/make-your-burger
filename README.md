@@ -125,3 +125,40 @@ async getIngredientes() {
     },
 ```
 
+## Toast Service (Mensagens de sucesso, erro, etc)
+
+Instalar o mitt: 
+
+```bash
+npm16 install mitt --save
+```
+
+Importar o ToastService e o componente no main.js:
+```js
+import ToastService from 'primevue/toastservice';
+import Toast from 'primevue/toast';
+
+app.use(ToastService);
+app.component('Toast', Toast);
+
+```
+
+Importar o componente na tela desejada, e utilizar conforme exemplo abaixo: 
+
+```vue
+<template>
+  <Toast />
+</template>
+
+
+<script>
+
+....
+methods: {
+  mounted() {
+    this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Mensagem detalhada`, life: 3000});
+  }
+}
+</script>
+```
+

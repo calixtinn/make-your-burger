@@ -21,7 +21,7 @@
         logo_src: '/img/logo.png',
         app_name: 'Make Your Burger'
       }
-    }
+    },
   }
 </script>
 

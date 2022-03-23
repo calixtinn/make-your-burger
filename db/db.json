@@ -83,16 +83,6 @@
   ],
   "burgers": [
     {
-      "nome": "Calixto",
-      "carne": "Maminha",
-      "pao": "Parmesão e Orégano",
-      "opcionais": [
-        "Bacon"
-      ],
-      "status": "Solicitado",
-      "id": 1
-    },
-    {
       "nome": "maria",
       "carne": "Alcatra",
       "pao": "Parmesão e Orégano",
@@ -207,6 +197,58 @@
       ],
       "status": "Solicitado",
       "id": 13
+    },
+    {
+      "nome": "Taster",
+      "carne": "Veggie burger",
+      "pao": "Integral",
+      "opcionais": [
+        "Salame",
+        "Cebola roxa"
+      ],
+      "status": "Solicitado",
+      "id": 14
+    },
+    {
+      "nome": "Arnaldo",
+      "carne": "Picanha",
+      "pao": "Integral",
+      "opcionais": [
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 15
+    },
+    {
+      "nome": "Aroldo",
+      "carne": "Veggie burger",
+      "pao": "Integral",
+      "opcionais": [
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 16
+    },
+    {
+      "nome": "asdasd",
+      "carne": "Picanha",
+      "pao": "Pão Mexicano",
+      "opcionais": [
+        "Bacon"
+      ],
+      "status": "Solicitado",
+      "id": 17
+    },
+    {
+      "nome": "karla",
+      "carne": "Veggie burger",
+      "pao": "Parmesão e Orégano",
+      "opcionais": [
+        "Bacon",
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 18
     }
   ]
 }
