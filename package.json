@@ -8,6 +8,8 @@
     "backend": "json-server --watch db/db.json"
   },
   "dependencies": {
+    "@vuelidate/core": "^2.0.0-alpha.35",
+    "@vuelidate/validators": "^2.0.0-alpha.27",
     "core-js": "^3.8.3",
     "json-server": "^0.17.0",
     "mitt": "^3.0.0",

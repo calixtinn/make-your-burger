@@ -57,5 +57,11 @@
     background: #808080 !important;
   }
 
+  .error-msg {
+    color: #ff0000;
+    font-size: small;
+    margin-top: 6px;
+    padding-left: 12px;
+}
 
 </style>

@@ -4,19 +4,28 @@
     <div>
       <form id="burger-form" @submit.prevent="createBurger()">
         <div class="input-container">
-          <label for="nome">Nome do cliente:</label>
-          <span id="input-text-span" class="p-input-icon-right">
+          <label for="nome">Nome do cliente: *</label>
+          <span id="input-text-span" class="p-input-icon-left">
             <InputText id="nome" name="nome" type="text" v-model="nome" placeholder="Digite seu nome" />
             <i class="pi pi-user" />
           </span>
+          <div v-for="error of v$.nome.$errors" :key="error.$uid">
+              <div class="error-msg">Campo Obrigatório</div>
+          </div>
         </div>
         <div class="input-container">
-          <label for="pao">Escolha o pão:</label>
+          <label for="pao">Escolha o pão: *</label>
           <Dropdown id="pao" name="pao" v-model="pao" :options="paes" optionLabel="tipo" optionValue="tipo" :filter="true"/>
+          <div v-for="error of v$.pao.$errors" :key="error.$uid">
+              <div class="error-msg">Campo Obrigatório</div>
+          </div>
         </div>
         <div class="input-container">
-          <label for="carne">Selecione a carne:</label>
+          <label for="carne">Selecione a carne: *</label>
           <Dropdown id="carne" name="carne" v-model="carne" :options="carnes" optionLabel="tipo" optionValue="tipo" :filter="true"/>
+          <div v-for="error of v$.carne.$errors" :key="error.$uid">
+              <div class="error-msg">Campo Obrigatório</div>
+          </div>
         </div>
         <div id="opcionais-container" class="input-container">
           <label id="opcionais-title" for="carne">Selecione os opcionais:</label>
@@ -41,11 +50,14 @@ import Dropdown from 'primevue/dropdown';
 import Checkbox from 'primevue/checkbox';
 import Button from 'primevue/button';
 import {ToastSeverity} from 'primevue/api';
+import useValidate from '@vuelidate/core'
+import {required} from '@vuelidate/validators'
 
 export default {
   name: 'BurgerForm',
   data() {
     return {
+      v$: useValidate(),
       nome: null,
       paes: null,
       carnes: null,
@@ -53,6 +65,13 @@ export default {
       pao: null,
       carne: null,
       opcionais: []
+    }
+  },
+  validations() {
+    return {
+      nome: { required },
+      pao: { required },
+      carne: { required }
     }
   },
   components: { InputText, Dropdown, Checkbox, Button },
@@ -72,29 +91,35 @@ export default {
     },
 
     async createBurger() {
-      const data = {
-        nome: this.nome,
-        carne: this.carne,
-        pao: this.pao,
-        opcionais: Array.from(this.opcionais),
-        status: 'Solicitado',
+
+      this.v$.$validate();
+      if(!this.v$.$error) {
+        const data = {
+          nome: this.nome,
+          carne: this.carne,
+          pao: this.pao,
+          opcionais: Array.from(this.opcionais),
+          status: 'Solicitado',
+        }
+
+        await api.post('/burgers', data).then((response) => {
+          this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
+          setTimeout(() => this.msg = "", 3000);
+          this.v$.$reset();
+        }).catch(error => {
+          console.log(error);
+        });
+
+        // Limpar os campos
+
+        this.nome = '';
+        this.carne = '';
+        this.pao = '';
+        this.opcionais = [];
+        return;
       }
-
-
-      await api.post('/burgers', data).then((response) => {
-        this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
-        setTimeout(() => this.msg = "", 3000);
-      }).catch(error => {
-        console.log(error);
-      });
-
-      // Limpar os campos
-
-      this.nome = '';
-      this.carne = '';
-      this.pao = '';
-      this.opcionais = [];
-
+      this.$toast.add({severity: ToastSeverity.ERROR, summary: 'Erro', detail: 'Favor preencher os campos obrigatórios!', life: 3000});
+      return;
     }
   },
   mounted() {
