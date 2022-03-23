@@ -22,7 +22,7 @@
         </Column>
         <Column :exportable="false">
           <template #body="pedido">
-              <Button icon="pi pi-trash" class="p-button-rounded p-button-danger" @click="deleteBurger(pedido.data.id)" />
+              <Button icon="pi pi-trash" class="p-button-rounded p-button-danger" @click="deleteBurger(pedido.data.id)" v-tooltip="'Cancelar Pedido'"/>
           </template>
         </Column>
     </DataTable>
