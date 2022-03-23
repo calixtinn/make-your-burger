@@ -5,39 +5,28 @@
       <form id="burger-form" @submit.prevent="createBurger()">
         <div class="input-container">
           <label for="nome">Nome do cliente:</label>
-          <!-- <input type="text" id="nome" name="nome" v-model="nome" placeholder="Digite seu nome"> -->
-          <span class="p-input-icon-left">
+          <span id="input-text-span" class="p-input-icon-right">
             <InputText id="nome" name="nome" type="text" v-model="nome" placeholder="Digite seu nome" />
             <i class="pi pi-user" />
           </span>
         </div>
         <div class="input-container">
           <label for="pao">Escolha o pão:</label>
-          <select name="pao" id="pao" v-model="pao">
-            <option value="">Selecione o seu pão:</option>
-            <option v-for="pao in paes" :key="pao.id" :value="pao.tipo">
-              {{pao.tipo}}
-            </option>
-          </select>
+          <Dropdown id="pao" name="pao" v-model="pao" :options="paes" optionLabel="tipo" optionValue="tipo" :filter="true"/>
         </div>
         <div class="input-container">
           <label for="carne">Selecione a carne:</label>
-          <select name="carne" id="carne" v-model="carne">
-            <option value="">Selecione o tipo de carne</option>
-            <option v-for="carne in carnes" :key="carne.id" :value="carne.tipo">
-              {{carne.tipo}}
-            </option>
-          </select>
+          <Dropdown id="carne" name="carne" v-model="carne" :options="carnes" optionLabel="tipo" optionValue="tipo" :filter="true"/>
         </div>
         <div id="opcionais-container" class="input-container">
           <label id="opcionais-title" for="carne">Selecione os opcionais:</label>
           <div v-for="opcional in opcionaisdata" :key="opcional.id" class="checkbox-container">
-            <input type="checkbox" name="opcionais" v-model="opcionais" :value="opcional.tipo">
+            <Checkbox name="opcionais" :value="opcional.tipo" v-model="opcionais"/>
             <span>{{opcional.tipo}}</span>
           </div>
         </div>
         <div class="input-container">
-          <input type="submit" class="submit-btn" value="Criar meu Burger!">
+          <Button type="submit" label="Criar meu Burger!" icon="pi pi-check" class="submit-btn" />
         </div>
       </form>
     </div>
@@ -45,8 +34,13 @@
 </template>
 
 <script>
+
 import Message from './Message.vue';
 import api from '@/services/api'
+import InputText from 'primevue/inputtext';
+import Dropdown from 'primevue/dropdown';
+import Checkbox from 'primevue/checkbox';
+import Button from 'primevue/button';
 
 export default {
   name: 'BurgerForm',
@@ -62,7 +56,7 @@ export default {
       msg: null
     }
   },
-  components: { Message },
+  components: { Message, InputText, Dropdown, Checkbox, Button },
   methods: {
     async getIngredientes() {
 
@@ -116,6 +110,10 @@ export default {
   margin: 0 auto;
 }
 
+#input-text-span {
+  width: 300px;
+}
+
 .input-container {
   display: flex;
   flex-direction: column;
@@ -133,6 +131,14 @@ label {
 input, select {
   padding: 5px 10px;
   width: 300px;
+}
+
+.p-dropdown {
+  width: 300px;
+}
+
+.p-checkbox {
+  margin-right: 5px;
 }
 
 #opcionais-container {
@@ -171,16 +177,12 @@ input, select {
   margin: 0 auto;
   cursor: pointer;
   transition: .5s;
+  width: 300px;
 }
 
-.submit-btn:hover {
-  background-color: transparent;
-  color: #222;
+.p-button:hover {
+  background-color: transparent !important;
+  color: #222 !important;
 }
-
-/*.p-inputtext {*/
-/*  background: white;*/
-/*  color: black;*/
-/*}*/
 
 </style>
