@@ -50,4 +50,12 @@
     color: #222;
   }
 
+  /** Todos os dropdowns do projeto terão o highlight cinza */
+
+  :root .p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    color: #ffffff !important;
+    background: #808080 !important;
+  }
+
+
 </style>
