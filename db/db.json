@@ -84,15 +84,28 @@
   "burgers": [
     {
       "nome": "Calixto",
-      "pao": "Italiano Branco",
-      "carne": "Veggie burger",
+      "pao": "Pão Mexicano",
+      "carne": "Alcatra",
       "opcionais": [
+        "Bacon"
+      ],
+      "status": "Finalizado",
+      "id": 1
+    },
+    {
+      "nome": "Carlos",
+      "pao": "Italiano Branco",
+      "carne": "Picanha",
+      "opcionais": [
+        "Salame",
+        "Cebola roxa",
         "Bacon",
+        "Cheddar",
         "Tomate",
-        "Cheddar"
+        "Pepino"
       ],
       "status": "Solicitado",
-      "id": 1
+      "id": 2
     }
   ]
 }
