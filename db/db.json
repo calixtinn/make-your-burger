@@ -89,7 +89,7 @@
       "opcionais": [
         "Bacon"
       ],
-      "status": "Finalizado",
+      "status": "Em produção",
       "id": 1
     },
     {
@@ -106,6 +106,17 @@
       ],
       "status": "Solicitado",
       "id": 2
+    },
+    {
+      "nome": "Lorena",
+      "pao": "3 Queijos",
+      "carne": "Maminha",
+      "opcionais": [
+        "Bacon",
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 3
     }
   ]
 }

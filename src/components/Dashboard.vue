@@ -1,7 +1,9 @@
 <template>
   <div>
     <Toast />
-    <DataTable :value="burgers" responsiveLayout="scroll" :stripedRows="true">
+    <DataTable :value="burgers" responsiveLayout="scroll" :stripedRows="true" :paginator="true" :rows="5"
+            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+            :rowsPerPageOptions="[5,10,20]" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
         <Column field="id" header="#"></Column>
         <Column field="nome" header="Nome"></Column>
         <Column field="pao" header="Pão"></Column>
@@ -18,7 +20,7 @@
             <Dropdown id="status" name="status" v-model="pedido.data.status" :options="status" optionLabel="tipo" optionValue="tipo" @change="updateBurger($event, pedido.data.id)"/>
           </template>
         </Column>
-        <Column :exportable="false" style="min-width:8rem">
+        <Column :exportable="false">
           <template #body="pedido">
               <Button icon="pi pi-trash" class="p-button-rounded p-button-danger" @click="deleteBurger(pedido.data.id)" />
           </template>
@@ -83,5 +85,7 @@
 </script>
 
 <style scoped>
-  
+
+
+
 </style>
