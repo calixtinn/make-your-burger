@@ -6,31 +6,31 @@
         <div class="input-container">
           <label for="nome">Nome do cliente: *</label>
           <span id="input-text-span" class="p-input-icon-left">
-            <InputText id="nome" name="nome" type="text" v-model="nome" placeholder="Digite seu nome" />
+            <InputText id="nome" name="nome" type="text" v-model="burger.nome" placeholder="Digite seu nome" />
             <i class="pi pi-user" />
           </span>
-          <div v-for="error of v$.nome.$errors" :key="error.$uid">
+          <div v-for="error of v$.burger.nome.$errors" :key="error.$uid">
               <div class="error-msg">Campo Obrigatório</div>
           </div>
         </div>
         <div class="input-container">
           <label for="pao">Escolha o pão: *</label>
-          <Dropdown id="pao" name="pao" v-model="pao" :options="paes" optionLabel="tipo" optionValue="tipo" :filter="true"/>
-          <div v-for="error of v$.pao.$errors" :key="error.$uid">
+          <Dropdown id="pao" name="pao" v-model="burger.pao" :options="paesOptions" optionLabel="tipo" optionValue="tipo" :filter="true"/>
+          <div v-for="error of v$.burger.pao.$errors" :key="error.$uid">
               <div class="error-msg">Campo Obrigatório</div>
           </div>
         </div>
         <div class="input-container">
           <label for="carne">Selecione a carne: *</label>
-          <Dropdown id="carne" name="carne" v-model="carne" :options="carnes" optionLabel="tipo" optionValue="tipo" :filter="true"/>
-          <div v-for="error of v$.carne.$errors" :key="error.$uid">
+          <Dropdown id="carne" name="carne" v-model="burger.carne" :options="carnesOptions" optionLabel="tipo" optionValue="tipo" :filter="true"/>
+          <div v-for="error of v$.burger.carne.$errors" :key="error.$uid">
               <div class="error-msg">Campo Obrigatório</div>
           </div>
         </div>
         <div id="opcionais-container" class="input-container">
           <label id="opcionais-title" for="carne">Selecione os opcionais:</label>
           <div v-for="opcional in opcionaisdata" :key="opcional.id" class="checkbox-container">
-            <Checkbox name="opcionais" :value="opcional.tipo" v-model="opcionais"/>
+            <Checkbox name="opcionais" :value="opcional.tipo" v-model="burger.opcionais"/>
             <span>{{opcional.tipo}}</span>
           </div>
         </div>
@@ -58,20 +58,25 @@ export default {
   data() {
     return {
       v$: useValidate(),
-      nome: null,
-      paes: null,
-      carnes: null,
+      paesOptions: null,
+      carnesOptions: null,
       opcionaisdata: null,
-      pao: null,
-      carne: null,
-      opcionais: []
+      burger: {
+        nome: null,
+        pao: null,
+        carne: null,
+        opcionais: [],
+        status: 'Solicitado'
+      },
     }
   },
   validations() {
     return {
-      nome: { required },
-      pao: { required },
-      carne: { required }
+      burger: {
+        nome: { required },
+        pao: { required },
+        carne: { required }
+      }
     }
   },
   components: { InputText, Dropdown, Checkbox, Button },
@@ -81,8 +86,8 @@ export default {
       // Exemplo de uso do axios para requisições
 
       await api.get('/ingredientes').then((response) => {
-        this.paes = response.data.paes;
-        this.carnes = response.data.carnes;
+        this.paesOptions = response.data.paes;
+        this.carnesOptions = response.data.carnes;
         this.opcionaisdata = response.data.opcionais;
       }).catch(error => {
         console.log(error);
@@ -94,28 +99,16 @@ export default {
 
       this.v$.$validate();
       if(!this.v$.$error) {
-        const data = {
-          nome: this.nome,
-          carne: this.carne,
-          pao: this.pao,
-          opcionais: Array.from(this.opcionais),
-          status: 'Solicitado',
-        }
-
-        await api.post('/burgers', data).then((response) => {
+        await api.post('/burgers', this.burger).then((response) => {
           this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
-          setTimeout(() => this.msg = "", 3000);
+          // Resetar o formulário
           this.v$.$reset();
+          // Limpar os campos
+          this.burger = {};
         }).catch(error => {
           console.log(error);
         });
-
-        // Limpar os campos
-
-        this.nome = '';
-        this.carne = '';
-        this.pao = '';
-        this.opcionais = [];
+        
         return;
       }
       this.$toast.add({severity: ToastSeverity.ERROR, summary: 'Erro', detail: 'Favor preencher os campos obrigatórios!', life: 3000});
