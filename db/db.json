@@ -83,16 +83,6 @@
   ],
   "burgers": [
     {
-      "nome": "Calixto",
-      "pao": "Pão Mexicano",
-      "carne": "Alcatra",
-      "opcionais": [
-        "Bacon"
-      ],
-      "status": "Em produção",
-      "id": 1
-    },
-    {
       "nome": "Carlos",
       "pao": "Italiano Branco",
       "carne": "Picanha",
@@ -161,6 +151,33 @@
       ],
       "status": "Solicitado",
       "id": 9
+    },
+    {
+      "nome": "Teste",
+      "pao": "3 Queijos",
+      "carne": "Alcatra",
+      "opcionais": [],
+      "status": "Solicitado",
+      "id": 10
+    },
+    {
+      "nome": "asdasd",
+      "pao": "3 Queijos",
+      "carne": "Picanha",
+      "opcionais": [],
+      "status": "Solicitado",
+      "id": 11
+    },
+    {
+      "nome": "Teste2",
+      "pao": "Italiano Branco",
+      "carne": "Alcatra",
+      "opcionais": [
+        "Bacon",
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 12
     }
   ]
 }

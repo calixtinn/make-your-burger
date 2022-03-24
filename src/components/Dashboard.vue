@@ -1,5 +1,6 @@
 <template>
   <div>
+    <BlockUICustom :blockedScreen="blockedScreen"/>
     <Toast />
     <div class="ultimo-pedido" v-if="nomeUltimoPedido">
       <h2>Último pedido: {{nomeUltimoPedido}} | {{pediuOpcionais}}</h2>
@@ -38,10 +39,12 @@
   import Button from 'primevue/button';
   import Dropdown from 'primevue/dropdown';
   import api from '@/services/api'
+  import BlockUICustom from './BlockUICustom.vue'
+
 
   export default {
     name: "Dashboard",
-    components: {DataTable, Column, Button, Dropdown},
+    components: {DataTable, Column, Button, Dropdown, BlockUICustom},
     data() {
       return {
         burgers: null,
@@ -49,13 +52,20 @@
         status: [],
         // Obtendo os dados da Store
         nomeUltimoPedido: this.$store.state.usuarioUltimoPedido.nome,
-        pediuOpcionais: this.$store.getters.escolheuOpcionais
+        pediuOpcionais: this.$store.getters.escolheuOpcionais,
+        blockedScreen: false
       }
     },
     methods: {
       async getPedidos() {
+        this.blockedScreen = true;
         await api.get('/burgers').then((response) => {
           this.burgers = response.data;
+        }).finally(() => {
+          // Timeout adicionado apenas para fins de demonstração, pois a requisição é muito rápida.
+          setTimeout(() => {
+            this.blockedScreen = false;
+          }, 1000)
         });
       },
 

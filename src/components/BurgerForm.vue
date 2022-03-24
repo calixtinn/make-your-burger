@@ -1,6 +1,7 @@
 <template>
   <div>
     <Toast />
+    <BlockUICustom :blockedScreen="blockedScreen"/>
     <div>
       <form id="burger-form" @submit.prevent="createBurger()">
         <div class="input-container">
@@ -52,6 +53,7 @@ import Button from 'primevue/button';
 import {ToastSeverity} from 'primevue/api';
 import useValidate from '@vuelidate/core';
 import {required} from '@vuelidate/validators';
+import BlockUICustom from './BlockUICustom.vue';
 
 export default {
   name: 'BurgerForm',
@@ -68,6 +70,7 @@ export default {
         opcionais: [],
         status: 'Solicitado',
       },
+      blockedScreen: false
     }
   },
   validations() {
@@ -79,7 +82,7 @@ export default {
       }
     }
   },
-  components: { InputText, Dropdown, Checkbox, Button },
+  components: { InputText, Dropdown, Checkbox, Button, BlockUICustom },
   methods: {
     async getIngredientes() {
 
@@ -99,6 +102,7 @@ export default {
 
       this.v$.$validate();
       if(!this.v$.$error) {
+        this.blockedScreen = true;
         await api.post('/burgers', this.burger).then((response) => {
           this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
           this.$store.dispatch('alterarUltimoPedido', {nome: this.burger.nome, qtdeOpcionais: this.burger.opcionais.length});
@@ -108,6 +112,8 @@ export default {
           this.burger = {};
         }).catch(error => {
           console.log(error);
+        }).finally(() => {
+          this.blockedScreen = false;
         });
         
         return;
