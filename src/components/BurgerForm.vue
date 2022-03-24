@@ -50,8 +50,8 @@ import Dropdown from 'primevue/dropdown';
 import Checkbox from 'primevue/checkbox';
 import Button from 'primevue/button';
 import {ToastSeverity} from 'primevue/api';
-import useValidate from '@vuelidate/core'
-import {required} from '@vuelidate/validators'
+import useValidate from '@vuelidate/core';
+import {required} from '@vuelidate/validators';
 
 export default {
   name: 'BurgerForm',
@@ -66,7 +66,7 @@ export default {
         pao: null,
         carne: null,
         opcionais: [],
-        status: 'Solicitado'
+        status: 'Solicitado',
       },
     }
   },
@@ -101,6 +101,7 @@ export default {
       if(!this.v$.$error) {
         await api.post('/burgers', this.burger).then((response) => {
           this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
+          this.$store.dispatch('alterarUltimoPedido', {nome: this.burger.nome, qtdeOpcionais: this.burger.opcionais.length});
           // Resetar o formulário
           this.v$.$reset();
           // Limpar os campos

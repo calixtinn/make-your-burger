@@ -1,6 +1,10 @@
 <template>
   <div>
     <Toast />
+    <div class="ultimo-pedido" v-if="nomeUltimoPedido">
+      <h2>Último pedido: {{nomeUltimoPedido}} | {{pediuOpcionais}}</h2>
+    </div>
+    <hr>
     <DataTable :value="burgers" responsiveLayout="scroll" :stripedRows="true" :paginator="true" :rows="5"
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             :rowsPerPageOptions="[5,10,20]" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros">
@@ -27,7 +31,6 @@
         </Column>
     </DataTable>
   </div>
-
 </template>
 <script>
   import DataTable from 'primevue/datatable';
@@ -35,7 +38,6 @@
   import Button from 'primevue/button';
   import Dropdown from 'primevue/dropdown';
   import api from '@/services/api'
-
 
   export default {
     name: "Dashboard",
@@ -45,6 +47,9 @@
         burgers: null,
         burger_id: null,
         status: [],
+        // Obtendo os dados da Store
+        nomeUltimoPedido: this.$store.state.usuarioUltimoPedido.nome,
+        pediuOpcionais: this.$store.getters.escolheuOpcionais
       }
     },
     methods: {
@@ -75,7 +80,7 @@
           this.$toast.add({severity: 'success', summary: 'Sucesso', detail:'Status alterado com sucesso', life:3000});
           this.getPedidos();
         });
-      }
+      },
     },
     mounted () {
       this.getPedidos();
@@ -86,6 +91,17 @@
 
 <style scoped>
 
+.p-datatable {
+  padding-top: 20px;
+}
 
+.ultimo-pedido {
+  color: rgb(207, 12, 12);
+  display: flex;
+}
+
+.ultimo-pedido h2 {
+  padding-left: 5px;
+}
 
 </style>

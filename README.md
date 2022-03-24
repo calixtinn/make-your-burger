@@ -168,4 +168,10 @@ Utilizar o Vuelidate. Links de apoio:
   - [Easy Form Validation with Vuelidate | Vue 3 Tutorial](https://www.youtube.com/watch?v=2BR6Vvjw3wQ) <- **O Melhor**
   - [Get Started](https://vuelidate-next.netlify.app/#getting-started-1)
 
+## Vuex
 
+O Vuex é a ferramenta oficial do Vuejs para o gerenciamento de estados da aplicação. É utilizado quando precisamos centralizar informações da nossa aplicação, que serão compartilhadas com todos os componentes, e que podem ser modificadas por eles. Para não gerar um código com vários emits e props aninhados, deixando-o em pouco tempo, impossível de manter.
+Mais informações sobre o Vuex podem ser encontradas nos links abaixo:
+  - [O que é Vuex?](https://vuex.vuejs.org/ptbr/)
+  - [Aula gratuita de Vuex (em inglês)](https://scrimba.com/learn/vuex) 
+  - [Aula gratuita em pt-br no YouTube](https://www.youtube.com/watch?v=TQ9Z_4CZpQg)

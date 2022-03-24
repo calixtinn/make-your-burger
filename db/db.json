@@ -104,7 +104,7 @@
         "Tomate",
         "Pepino"
       ],
-      "status": "Solicitado",
+      "status": "Em produção",
       "id": 2
     },
     {
@@ -117,6 +117,50 @@
       ],
       "status": "Solicitado",
       "id": 3
+    },
+    {
+      "nome": "Jhon",
+      "pao": "Integral",
+      "carne": "Veggie burger",
+      "opcionais": [
+        "Pepino",
+        "Cebola roxa",
+        "Tomate"
+      ],
+      "status": "Solicitado",
+      "id": 5
+    },
+    {
+      "nome": "Cléber",
+      "pao": "3 Queijos",
+      "carne": "Picanha",
+      "opcionais": [
+        "Cebola roxa",
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 7
+    },
+    {
+      "nome": "Bond",
+      "pao": "Integral",
+      "carne": "Alcatra",
+      "opcionais": [
+        "Salame"
+      ],
+      "status": "Solicitado",
+      "id": 8
+    },
+    {
+      "nome": "Cleiton",
+      "pao": "Parmesão e Orégano",
+      "carne": "Picanha",
+      "opcionais": [
+        "Salame",
+        "Bacon"
+      ],
+      "status": "Solicitado",
+      "id": 9
     }
   ]
 }
