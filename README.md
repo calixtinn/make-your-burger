@@ -175,3 +175,8 @@ Mais informações sobre o Vuex podem ser encontradas nos links abaixo:
   - [O que é Vuex?](https://vuex.vuejs.org/ptbr/)
   - [Aula gratuita de Vuex (em inglês)](https://scrimba.com/learn/vuex) 
   - [Aula gratuita em pt-br no YouTube](https://www.youtube.com/watch?v=TQ9Z_4CZpQg)
+
+## Problemas de CORS 
+
+Se caso tiver problemas com CORS, ler o seguinte artigo, e criar a configuração de proxy! 
+https://gitlab.com/cw-team1/estudo/crud-estudo/-/merge_requests/183/
