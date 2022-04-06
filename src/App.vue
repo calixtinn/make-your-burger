@@ -9,6 +9,8 @@
 </template>
 
 <script>
+
+  import { ref } from 'vue'
   import Navbar from "./components/Navbar.vue"
   import Footer from "./components/Footer.vue"
   export default {
@@ -16,12 +18,16 @@
       Navbar, 
       Footer
     },
-    data() {
+    setup() {
+
+      const logo_src = ref('/img/logo.png');
+      const app_name = ref('Make Your Burger');
+
       return {
-        logo_src: '/img/logo.png',
-        app_name: 'Make Your Burger'
+        logo_src,
+        app_name
       }
-    },
+    }
   }
 </script>
 
