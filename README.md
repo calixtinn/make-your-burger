@@ -206,3 +206,42 @@ Com isso, adicionando um v-model em um input, por exemplo, com o valor: data.quo
 
 Aqui está um link de apoio para entender fundamentos da Composition API: 
   - [Vue School](https://vueschool.io/courses/vue-js-fundamentals-with-the-composition-api)
+
+
+## CORS
+
+Para evitar problemas de CORS em desenvolvimento local, basta utilizar a seguinte configuração no arquivo `vue.config.js`: 
+
+```js
+module.exports = defineConfig({
+  transpileDependencies: true,
+  devServer: {
+    proxy: {
+      '/ingredientes': {
+        target: 'http://localhost:3000'
+      },
+      '/status': {
+        target: 'http://localhost:3000'
+      },
+      '/burgers': {
+        target: 'http://localhost:3000'
+      }
+    }
+  }
+})
+```
+Já no arquivo api.js, dentro do pacote service, não colocar a baseURL como o caminho completo!
+Nesse exemplo do make_your_burger, coloque apenas "/": 
+
+```js
+import axios from "axios";
+
+const api = axios.create({
+    baseURL: "/"
+});
+
+export default api;
+```
+
+Logo, todas as requisições que forem para /ingredientes, /status ou /burgers, serão redirecionadas para o backend do JSON server.
+Em sistemas reais, o proxy poderá ser apenas 1: "/api/", que aí sim, com a descrição correta dos endpoints no backend, será possível encaminhar o tráfego corretamente, eliminando o problema de CORS ! 
