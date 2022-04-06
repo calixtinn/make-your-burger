@@ -38,9 +38,9 @@
   import Column from 'primevue/column';
   import Button from 'primevue/button';
   import Dropdown from 'primevue/dropdown';
-  import api from '@/services/api'
+  import burgerService from '@/services/burger-service';
+  import statusService from '@/services/status-service';
   import BlockUICustom from './BlockUICustom.vue'
-
 
   export default {
     name: "Dashboard",
@@ -59,7 +59,7 @@
     methods: {
       async getPedidos() {
         this.blockedScreen = true;
-        await api.get('/burgers').then((response) => {
+        await burgerService.getAll().then((response) => {
           this.burgers = response.data;
         }).finally(() => {
           // Timeout adicionado apenas para fins de demonstração, pois a requisição é muito rápida.
@@ -71,14 +71,14 @@
 
       async getStatus() {
         
-        await api.get('/status').then((response) => {
+        await statusService.getAll().then((response) => {
           this.status = response.data;
         });
       },
 
       async deleteBurger(id) {
 
-        await api.delete(`/burgers/${id}`).then((response) => {
+        await burgerService.deleteById(id).then((response) => {
           this.$toast.add({severity: 'success', summary: 'Sucesso', detail:'Pedido deletado com sucesso', life:3000});
           this.getPedidos();
         });
@@ -86,7 +86,7 @@
 
       async updateBurger(event, id) {
 
-        await api.patch(`/burgers/${id}`, {status: event.value}).then((response) => {
+        await burgerService.updateStatus(id, event.value).then((response) => {
           this.$toast.add({severity: 'success', summary: 'Sucesso', detail:'Status alterado com sucesso', life:3000});
           this.getPedidos();
         });

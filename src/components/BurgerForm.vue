@@ -45,7 +45,8 @@
 
 <script>
 
-import api from '@/services/api'
+import ingredientesService from '@/services/ingredientes-service';
+import burgerService from '@/services/burger-service';
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
 import Checkbox from 'primevue/checkbox';
@@ -88,7 +89,7 @@ export default {
 
       // Exemplo de uso do axios para requisições
 
-      await api.get('/ingredientes').then((response) => {
+      await ingredientesService.getAll().then((response) => {
         this.paesOptions = response.data.paes;
         this.carnesOptions = response.data.carnes;
         this.opcionaisdata = response.data.opcionais;
@@ -103,7 +104,7 @@ export default {
       this.v$.$validate();
       if(!this.v$.$error) {
         this.blockedScreen = true;
-        await api.post('/burgers', this.burger).then((response) => {
+        await burgerService.create(this.burger).then((response) => {
           this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
           this.$store.dispatch('alterarUltimoPedido', {nome: this.burger.nome, qtdeOpcionais: this.burger.opcionais.length});
           // Resetar o formulário
