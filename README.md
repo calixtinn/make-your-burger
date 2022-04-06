@@ -175,3 +175,31 @@ Mais informações sobre o Vuex podem ser encontradas nos links abaixo:
   - [O que é Vuex?](https://vuex.vuejs.org/ptbr/)
   - [Aula gratuita de Vuex (em inglês)](https://scrimba.com/learn/vuex) 
   - [Aula gratuita em pt-br no YouTube](https://www.youtube.com/watch?v=TQ9Z_4CZpQg)
+
+
+## Composition API
+
+No Vue.js 3 foi introduzido o conceito de Composition API, substituindo o Options API que era presente no Vue.js 2.
+A Composition API abstraiu toda as sessões: methods, data, created (lifecycle hooks)... em um método único, chamado setup. Ele vai expor as variáveis para o template.
+
+Nem todas as variáveis serão reativas, é necessário informar que tal variável é reativa para que ela seja. Para isso deve-se declarar dentro do setup() o hook `ref`: 
+```js
+import { ref } from 'vue'
+.
+.
+.
+const variavel = ref('Hello World')
+```
+
+Dentro do setup, devemos acessar o valor dessa variável com .value. Logo, com o exemplo acima, ficaria da seguinte forma: `variavel.value = 'Outro valor'`. Fora do setup() não é necessário informar a variável value.
+
+Existe um outro hook chamado reactive, que vai adicionar reatividade em todos os objetos aninhados. Ex:
+
+```js
+const data = reactive({
+  quotes: {
+    test: ''
+  }
+})
+```
+Com isso, adicionando um v-model em um input, por exemplo, com o valor: data.quotes.test, o mesmo vai ser reativo!
