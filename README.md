@@ -203,3 +203,6 @@ const data = reactive({
 })
 ```
 Com isso, adicionando um v-model em um input, por exemplo, com o valor: data.quotes.test, o mesmo vai ser reativo!
+
+Aqui está um link de apoio para entender fundamentos da Composition API: 
+  - [Vue School](https://vueschool.io/courses/vue-js-fundamentals-with-the-composition-api)
