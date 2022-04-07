@@ -13,9 +13,9 @@ export default {
 <style scoped>
     #main-banner {
         background-image: url("/home/celula/Desktop/Projetos\ Fábrica/BADESUL/curso-vue/make_your_burger/public/img/burger.jpg");
-        background-position: 0 -450px;
+        background-position: 0 -300px;
         background-size: cover;
-        height: 500px;
+        height: 450px;
         display: flex;
         align-items: center;
         justify-content: flex-start;

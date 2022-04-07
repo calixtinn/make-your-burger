@@ -7,7 +7,7 @@
         <div class="input-container">
           <label for="nome">Nome do cliente: *</label>
           <span id="input-text-span" class="p-input-icon-left">
-            <InputText id="nome" name="nome" type="text" v-model="burger.nome" placeholder="Digite seu nome" />
+            <InputText id="nome" name="nome" type="text" v-model="state.burger.nome" placeholder="Digite seu nome" />
             <i class="pi pi-user" />
           </span>
           <div v-for="error of v$.burger.nome.$errors" :key="error.$uid">
@@ -16,14 +16,14 @@
         </div>
         <div class="input-container">
           <label for="pao">Escolha o pão: *</label>
-          <Dropdown id="pao" name="pao" v-model="burger.pao" :options="paesOptions" optionLabel="tipo" optionValue="tipo" :filter="true"/>
+          <Dropdown id="pao" name="pao" v-model="state.burger.pao" :options="paesOptions" optionLabel="tipo" optionValue="tipo" :filter="true"/>
           <div v-for="error of v$.burger.pao.$errors" :key="error.$uid">
               <div class="error-msg">Campo Obrigatório</div>
           </div>
         </div>
         <div class="input-container">
           <label for="carne">Selecione a carne: *</label>
-          <Dropdown id="carne" name="carne" v-model="burger.carne" :options="carnesOptions" optionLabel="tipo" optionValue="tipo" :filter="true"/>
+          <Dropdown id="carne" name="carne" v-model="state.burger.carne" :options="carnesOptions" optionLabel="tipo" optionValue="tipo" :filter="true"/>
           <div v-for="error of v$.burger.carne.$errors" :key="error.$uid">
               <div class="error-msg">Campo Obrigatório</div>
           </div>
@@ -31,7 +31,7 @@
         <div id="opcionais-container" class="input-container">
           <label id="opcionais-title" for="carne">Selecione os opcionais:</label>
           <div v-for="opcional in opcionaisdata" :key="opcional.id" class="checkbox-container">
-            <Checkbox name="opcionais" :value="opcional.tipo" v-model="burger.opcionais"/>
+            <Checkbox name="opcionais" :value="opcional.tipo" v-model="state.burger.opcionais"/>
             <span>{{opcional.tipo}}</span>
           </div>
         </div>
@@ -47,85 +47,107 @@
 
 import ingredientesService from '@/services/ingredientes-service';
 import burgerService from '@/services/burger-service';
+
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
 import Checkbox from 'primevue/checkbox';
 import Button from 'primevue/button';
+import BlockUICustom from './BlockUICustom.vue';
+
 import {ToastSeverity} from 'primevue/api';
+import { useToast } from "primevue/usetoast";
 import useValidate from '@vuelidate/core';
 import {required} from '@vuelidate/validators';
-import BlockUICustom from './BlockUICustom.vue';
+import { computed, onMounted, reactive, ref } from 'vue';
+
+import { useStore } from 'vuex'
 
 export default {
   name: 'BurgerForm',
-  data() {
-    return {
-      v$: useValidate(),
-      paesOptions: null,
-      carnesOptions: null,
-      opcionaisdata: null,
-      burger: {
+  components: { InputText, Dropdown, Checkbox, Button, BlockUICustom },
+  setup() {
+
+    const toast = useToast();
+    const store = useStore();
+
+    const state = reactive({
+      burger:{
         nome: null,
         pao: null,
         carne: null,
         opcionais: [],
         status: 'Solicitado',
-      },
-      blockedScreen: false
-    }
-  },
-  validations() {
-    return {
-      burger: {
-        nome: { required },
-        pao: { required },
-        carne: { required }
       }
-    }
-  },
-  components: { InputText, Dropdown, Checkbox, Button, BlockUICustom },
-  methods: {
-    async getIngredientes() {
+    })
 
+    const rules = computed(() => {
+      return {
+        burger: {
+          nome: { required },
+          pao: { required },
+          carne: { required }
+        }
+      };
+    });
+
+    const v$ = useValidate(rules, state);
+
+    const alterarUltimoPedido = () => store.dispatch('alterarUltimoPedido', {nome: state.burger.nome, qtdeOpcionais: state.burger.opcionais.length});
+
+    const paesOptions = ref(null);
+    const carnesOptions = ref(null);
+    const opcionaisdata = ref(null);
+    const blockedScreen = ref(false);
+
+    async function getIngredientes() {
       // Exemplo de uso do axios para requisições
-
       await ingredientesService.getAll().then((response) => {
-        this.paesOptions = response.data.paes;
-        this.carnesOptions = response.data.carnes;
-        this.opcionaisdata = response.data.opcionais;
+        paesOptions.value = response.data.paes;
+        carnesOptions.value = response.data.carnes;
+        opcionaisdata.value = response.data.opcionais;
       }).catch(error => {
         console.log(error);
       });
+    };
 
-    },
-
-    async createBurger() {
-
-      this.v$.$validate();
-      if(!this.v$.$error) {
-        this.blockedScreen = true;
-        await burgerService.create(this.burger).then((response) => {
-          this.$toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
-          this.$store.dispatch('alterarUltimoPedido', {nome: this.burger.nome, qtdeOpcionais: this.burger.opcionais.length});
+    async function createBurger() {
+      v$.value.$validate();
+      if(!v$.value.$error) {
+        blockedScreen.value = true;
+        await burgerService.create(state.burger).then((response) => {
+          toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
+          alterarUltimoPedido();
           // Resetar o formulário
-          this.v$.$reset();
+          v$.value.$reset();
           // Limpar os campos
-          this.burger = {};
+          state.burger = {};
         }).catch(error => {
           console.log(error);
         }).finally(() => {
-          this.blockedScreen = false;
+          blockedScreen.value = false;
         });
-        
         return;
       }
-      this.$toast.add({severity: ToastSeverity.ERROR, summary: 'Erro', detail: 'Favor preencher os campos obrigatórios!', life: 3000});
+      toast.add({severity: ToastSeverity.ERROR, summary: 'Erro', detail: 'Favor preencher os campos obrigatórios!', life: 3000});
       return;
     }
+    
+    onMounted(() => {
+      getIngredientes();
+    })
+
+    return {
+      state,
+      paesOptions,
+      carnesOptions,
+      opcionaisdata,
+      blockedScreen,
+      v$,
+      getIngredientes,
+      createBurger,
+      alterarUltimoPedido
+    }
   },
-  mounted() {
-    this.getIngredientes();
-  }
 }
 </script>
 
