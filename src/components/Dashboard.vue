@@ -41,61 +41,80 @@
   import burgerService from '@/services/burger-service';
   import statusService from '@/services/status-service';
   import BlockUICustom from './BlockUICustom.vue'
+  import { useStore } from 'vuex';
+  import { useToast } from "primevue/usetoast";
+
+  import { ref } from '@vue/reactivity';
+  import { computed, onMounted } from '@vue/runtime-core';
 
   export default {
     name: "Dashboard",
     components: {DataTable, Column, Button, Dropdown, BlockUICustom},
-    data() {
-      return {
-        burgers: null,
-        burger_id: null,
-        status: [],
-        // Obtendo os dados da Store
-        nomeUltimoPedido: this.$store.state.usuarioUltimoPedido.nome,
-        pediuOpcionais: this.$store.getters.escolheuOpcionais,
-        blockedScreen: false
-      }
-    },
-    methods: {
-      async getPedidos() {
-        this.blockedScreen = true;
+
+    setup() {
+      
+      const store = useStore();
+      const toast = useToast();
+
+      const burgers = ref(null);
+      const burger_id = ref(null);
+      const status = ref([]);
+      const blockedScreen = ref(false);
+
+      async function getPedidos() {
         await burgerService.getAll().then((response) => {
-          this.burgers = response.data;
+          burgers.value = response.data;
+          getStatus();
         }).finally(() => {
           // Timeout adicionado apenas para fins de demonstração, pois a requisição é muito rápida.
           setTimeout(() => {
-            this.blockedScreen = false;
-          }, 1000)
+            blockedScreen.value = false;
+          }, 800)
         });
-      },
-
-      async getStatus() {
-        
+      };
+      
+      async function getStatus() {
         await statusService.getAll().then((response) => {
-          this.status = response.data;
+          status.value = response.data;
         });
-      },
+      };
 
-      async deleteBurger(id) {
-
+      async function deleteBurger(id) {
+        blockedScreen.value = true;
         await burgerService.deleteById(id).then((response) => {
-          this.$toast.add({severity: 'success', summary: 'Sucesso', detail:'Pedido deletado com sucesso', life:3000});
-          this.getPedidos();
+          toast.add({severity: 'success', summary: 'Sucesso', detail:'Pedido deletado com sucesso', life:3000});
+          getPedidos();
         });
-      },
+      };
 
-      async updateBurger(event, id) {
-
+      async function updateBurger(event, id) {
+        blockedScreen.value = true;
         await burgerService.updateStatus(id, event.value).then((response) => {
-          this.$toast.add({severity: 'success', summary: 'Sucesso', detail:'Status alterado com sucesso', life:3000});
-          this.getPedidos();
+          toast.add({severity: 'success', summary: 'Sucesso', detail:'Status alterado com sucesso', life:3000});
+          getPedidos();
         });
-      },
-    },
-    mounted () {
-      this.getPedidos();
-      this.getStatus();
+      };
+
+      onMounted(() => {
+        blockedScreen.value = true;
+        getPedidos();
+      });
+    
+      return {
+        burgers,
+        burger_id,
+        status,
+        blockedScreen,
+        // Obtendo os dados da Store
+        nomeUltimoPedido: computed(() => store.state.usuarioUtimoPedido),
+        pediuOpcionais: computed(() => store.getters.escolheuOpcionais),
+        getPedidos,
+        getStatus,
+        deleteBurger,
+        updateBurger
+      }
     }
+    
   }
 </script>
 
