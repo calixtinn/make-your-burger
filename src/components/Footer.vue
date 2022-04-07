@@ -1,12 +1,13 @@
 <template>
-  <footer id="footer">
-    <p>Make your Burger &copy; 2022</p>
-  </footer>
+    <footer id="footer">
+      <p>Make your Burger &copy; 2022</p>
+    </footer>
 </template>
 
 <script>
 export default {
-    name: 'Footer'
+    name: 'Footer',
+
 }
 </script>
 

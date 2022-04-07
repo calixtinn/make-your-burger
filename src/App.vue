@@ -1,31 +1,47 @@
 <template>
   <div>
-    <Navbar :logo="logo_src" :alt="app_name"/>
-    <div>
+    <!-- <Navbar :logo="logo_src" :alt="app_name"/> -->
+    <Sidebar :logo="logo_src" :alt="app_name" />
+    <div :style="{'margin-left': sidebarWidth}">
       <router-view/>
     </div>
-    <Footer />
+    <div :style="{'margin-left': sidebarWidth}">
+      <Footer />
+    </div>    
   </div>
 </template>
 
 <script>
 
-  import { ref } from 'vue'
+  import { ref, computed, onMounted } from 'vue'
   import Navbar from "./components/Navbar.vue"
   import Footer from "./components/Footer.vue"
+  import Sidebar from "./components/Sidebar.vue"
+  import {useStore} from 'vuex'
+
   export default {
     components: {
       Navbar, 
-      Footer
+      Footer,
+      Sidebar
     },
     setup() {
-
+      const store = useStore();
       const logo_src = ref('/img/logo.png');
       const app_name = ref('Make Your Burger');
 
+      const esconderSidebar = () => store.dispatch('esconderSidebar');
+
+      onMounted(() => {
+        esconderSidebar();
+      })
+
       return {
         logo_src,
-        app_name
+        app_name,
+        sidebarWidth: computed(() => store.getters.getSidebarWidth),
+        esconderSidebar
+
       }
     }
   }
@@ -45,8 +61,9 @@
   }
 
   .main-container {
-    margin: 50px; /* Ajustar o conteúdo e dar mais espaçamento em todos os cantos */
-    min-height: 250px; /* Ganha um "corpo" a mais, o conteúdo do site */
+    margin: 50px; /*  Ajustar o conteúdo e dar mais espaçamento em todos os cantos */
+    min-height: 100vh; /*  Ganha um "corpo" a mais, o conteúdo do site */
+    position: relative;
   }
 
   h1 {

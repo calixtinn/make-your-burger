@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { ALTERAR_ULTIMO_PEDIDO } from './mutations-types';
+import { ALTERAR_ULTIMO_PEDIDO, ALTERAR_SIDEBAR, ESCONDER_SIDEBAR } from './mutations-types';
 
 const store = createStore({
     // State armazena as variáveis que serão compartilhadas com toda a aplicação
@@ -7,12 +7,21 @@ const store = createStore({
         usuarioUltimoPedido: {
             nome: null,
             qtdeOpcionais: null
-        }
+        },
+        collapsedSidebar: false,
+        sidebarWidth: 180,
+        sidebarWidthCollapsed: 38
     },
     // Recebe states como parâmetro e podemos fazer quaisquer alterações
     getters: {
         escolheuOpcionais(state) {
             return state.usuarioUltimoPedido.qtdeOpcionais > 0 ? 'Com opcionais' : 'Sem opcionais';
+        },
+        getStatusSidebar(state) {
+            return state.collapsedSidebar;
+        },
+        getSidebarWidth(state) {
+            return `${state.collapsedSidebar ? state.sidebarWidthCollapsed : state.sidebarWidth}px`
         }
     },
     // Realiza alterações nas states. São síncronos!
@@ -21,6 +30,12 @@ const store = createStore({
         [ALTERAR_ULTIMO_PEDIDO](state, payload) {
             state.usuarioUltimoPedido.nome = payload.nome;
             state.usuarioUltimoPedido.qtdeOpcionais = payload.qtdeOpcionais;
+        },
+        [ALTERAR_SIDEBAR](state) {
+            state.collapsedSidebar = !state.collapsedSidebar;
+        },
+        [ESCONDER_SIDEBAR](state) {
+            state.collapsedSidebar = false;
         }
     },
     // Em vez de mudar o estado, as ações confirmam (ou fazem commit de) mutações.
@@ -29,6 +44,12 @@ const store = createStore({
     actions: {
         alterarUltimoPedido({commit}, payload) {
             commit(ALTERAR_ULTIMO_PEDIDO, payload);
+        },
+        alterarSidebar({commit}) {
+            commit(ALTERAR_SIDEBAR);
+        },
+        esconderSidebar({commit}) {
+            commit(ESCONDER_SIDEBAR);
         }
     }
 });

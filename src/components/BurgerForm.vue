@@ -72,11 +72,11 @@ export default {
 
     const state = reactive({
       burger:{
-        nome: null,
-        pao: null,
-        carne: null,
+        nome: '',
+        pao: '',
+        carne: '',
         opcionais: [],
-        status: 'Solicitado',
+        status: '',
       }
     })
 
@@ -114,6 +114,7 @@ export default {
       v$.value.$validate();
       if(!v$.value.$error) {
         blockedScreen.value = true;
+        state.burger.status = 'Solicitado';
         await burgerService.create(state.burger).then((response) => {
           toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
           alterarUltimoPedido();
