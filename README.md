@@ -167,6 +167,7 @@ methods: {
 Utilizar o Vuelidate. Links de apoio: 
   - [Easy Form Validation with Vuelidate | Vue 3 Tutorial](https://www.youtube.com/watch?v=2BR6Vvjw3wQ) <- **O Melhor**
   - [Get Started](https://vuelidate-next.netlify.app/#getting-started-1)
+  - [Com Composition API](https://learnvue.co/2020/01/getting-smart-with-vue-form-validation-vuelidate-tutorial/#using-vuelidate-with-the-composition-api)
 
 ## Vuex
 
@@ -175,7 +176,7 @@ Mais informações sobre o Vuex podem ser encontradas nos links abaixo:
   - [O que é Vuex?](https://vuex.vuejs.org/ptbr/)
   - [Aula gratuita de Vuex (em inglês)](https://scrimba.com/learn/vuex) 
   - [Aula gratuita em pt-br no YouTube](https://www.youtube.com/watch?v=TQ9Z_4CZpQg)
-
+  - [Vuex e Composition API](https://vuex.vuejs.org/guide/composition-api.html#accessing-mutations-and-actions)
 
 ## Composition API
 
@@ -204,8 +205,10 @@ const data = reactive({
 ```
 Com isso, adicionando um v-model em um input, por exemplo, com o valor: data.quotes.test, o mesmo vai ser reativo!
 
-Aqui está um link de apoio para entender fundamentos da Composition API: 
+Aqui estão alguns links de apoio para entender fundamentos da Composition API: 
   - [Vue School](https://vueschool.io/courses/vue-js-fundamentals-with-the-composition-api)
+  - [YouTube - #1](https://www.youtube.com/watch?v=C3pFOmFZ8QU&t=1185s)
+  - [YouTube - #2](https://www.youtube.com/watch?v=95Hl6gyoWhM)
 
 
 ## CORS
