@@ -106,7 +106,7 @@
         status,
         blockedScreen,
         // Obtendo os dados da Store
-        nomeUltimoPedido: computed(() => store.state.usuarioUtimoPedido),
+        nomeUltimoPedido: computed(() => store.state.usuarioUltimoPedido.nome),
         pediuOpcionais: computed(() => store.getters.escolheuOpcionais),
         getPedidos,
         getStatus,

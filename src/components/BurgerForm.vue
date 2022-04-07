@@ -92,7 +92,7 @@ export default {
 
     const v$ = useValidate(rules, state);
 
-    const alterarUltimoPedido = () => store.dispatch('alterarUltimoPedido', {nome: state.burger.nome, qtdeOpcionais: state.burger.opcionais.length});
+    const alterarUltimoPedido = (nome, qtde) => store.dispatch('alterarUltimoPedido', {nome: nome, qtdeOpcionais: qtde});
 
     const paesOptions = ref(null);
     const carnesOptions = ref(null);
@@ -117,7 +117,7 @@ export default {
         state.burger.status = 'Solicitado';
         await burgerService.create(state.burger).then((response) => {
           toast.add({severity:ToastSeverity.SUCCESS, summary: 'Sucesso', detail:`Pedido Nº ${response.data.id} realizado!`, life: 3000});
-          alterarUltimoPedido();
+          alterarUltimoPedido(state.burger.nome, state.burger.opcionais.length);
           // Resetar o formulário
           v$.value.$reset();
           // Limpar os campos
